@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main">
+
+<head>
+<title>Example</title>
+</head>
+<body>
+	<section layout:fragment="content">
+		<h1>Hello world!</h1>
+
+		<p th:text="2+2"></p>
+	</section>
+</body>
+</html>

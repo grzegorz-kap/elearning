@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<link rel='stylesheet' href='webjars/bootstrap/3.3.4/css/bootstrap.min.css'></link>
+<link rel='stylesheet' href='resources/css/main.css'></link>
+
+<title>Layout page</title>
+</head>
+
+
+<body>
+	<header th:replace="layout/header::copy"> </header>
+
+	<div class="container">
+		<section layout:fragment="content" class="content">
+			<p>Page content goes here</p>
+		</section>
+
+		<footer th:include="layout/footer::copy"> </footer>
+	</div>
+	
+	
+	<script type="text/javascript"
+		src="webjars/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="webjars/jquery/2.1.3/jquery.min.js"></script>
+</body>
+</html>

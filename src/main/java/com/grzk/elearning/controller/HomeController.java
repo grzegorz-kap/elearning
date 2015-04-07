@@ -25,7 +25,7 @@ public class HomeController {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		
-		model.addAttribute("serverTime", userService.list().get(0) );
+		model.addAttribute("serverTime", userService.list().size() );
 		
 		return "home";
 	}
