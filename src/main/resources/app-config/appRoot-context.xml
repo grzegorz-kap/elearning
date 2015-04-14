@@ -11,6 +11,7 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<import resource="classpath:db/hibernate-context.xml" />
+	<import resource="classpath:app-config/appSecurity-context.xml"/>
 	
 	<context:component-scan base-package="com.grzk.elearning" />
 	

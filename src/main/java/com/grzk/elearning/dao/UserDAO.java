@@ -6,4 +6,5 @@ import com.grzk.elearning.model.User;
 
 public interface UserDAO {
 	List<User> list();
+	User byId(long id);
 }

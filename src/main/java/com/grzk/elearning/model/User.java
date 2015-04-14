@@ -23,8 +23,9 @@ public class User {
 	@Column(unique=true,nullable=false)
 	private String email;
 	
-	@Column(nullable=false, columnDefinition="boolean default false" )
-	private boolean admin = false;
+	@Column(nullable=false)
+	private boolean enabled = false;
+	
 	
 	public Long getId() {
 		return id;
@@ -58,11 +59,11 @@ public class User {
 		this.email = email;
 	}
 
-	public boolean isAdmin() {
-		return admin;
+	public boolean isEnabled() {
+		return enabled;
 	}
 
-	public void setAdmin(boolean admin) {
-		this.admin = admin;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 }

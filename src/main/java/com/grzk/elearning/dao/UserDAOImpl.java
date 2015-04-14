@@ -15,12 +15,20 @@ public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public List<User> list() {
-		return (List<User>) sessionFactory.getCurrentSession()
-				.createQuery("FROM User").list();
+		String query = "FROM User";
+		@SuppressWarnings("unchecked")
+		List<User> list = (List<User>) sessionFactory.getCurrentSession()
+				.createQuery(query).list();
+		return list;
 	}
+
+	@Override
+	public User byId(long id) {
+		return (User) sessionFactory.getCurrentSession().get(User.class, id);
+	}
+	
 
 }
