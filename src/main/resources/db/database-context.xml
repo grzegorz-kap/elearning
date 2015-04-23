@@ -2,17 +2,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
                             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
                             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
-                            http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+                            http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+                            http://www.springframework.org/schema/data/jpa
+    						http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<!-- Database configuration -->
 	<context:property-placeholder location="classpath:db/database.properties" />
 
-	<context:component-scan base-package="com.grzk.elearning.dao"></context:component-scan>
+	<context:component-scan base-package="com.grzk.elearning.repository"></context:component-scan>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<jpa:repositories base-package="com.grzk.elearning.repository" />
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -22,27 +27,35 @@
 		<property name="password" value="${jdbc.password}" />
 	</bean>
 
-	<bean id="sessionFactory" depends-on="flyway"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan">
-			<list>
-				<value>com.grzk.elearning.model</value>
-			</list>
-		</property>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
-				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
-				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2dll.auto}</prop>
-			</props>
-		</property>
+	<bean id="jpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="showSql" value="true" />
+		<property name="generateDdl" value="true" />
+		<property name="database" value="POSTGRESQL" />
 	</bean>
 
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+		<property name="packagesToScan" value="com.grzk.elearning.model" />
+		 <property name="jpaProperties">
+        <props>
+            <prop key="hibernate.show_sql">true</prop>
+            <prop key="hibernate.format_sql">true</prop>
+            <prop key="hibernate.hbm2ddl.auto">update</prop>
+        </props>
+    </property>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<bean id="persistenceExceptionTranslationPostProcessor"
