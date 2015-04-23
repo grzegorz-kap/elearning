@@ -22,7 +22,7 @@
 	
 	<global-method-security secured-annotations="enabled" />
 
-	<authentication-manager>
+	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="customUserDetailsService">
 			<password-encoder ref="passwordEncoder"/>
 		</authentication-provider>

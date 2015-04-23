@@ -28,10 +28,10 @@ public class RegistrationController {
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public String create(@Validated User user,BindingResult result){
-		if(result.hasErrors())
+		if(result.hasErrors()||userService.save(user)==null)
 			return "register";
-		if (userService.save(user)==null)
-			return "register";
+		
+		userService.login(user,user.getPasswordConfirm());
 		return "redirect:/";
 	}
 	
