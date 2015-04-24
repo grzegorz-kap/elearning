@@ -2,11 +2,9 @@ package com.grzk.elearning.service;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,7 +28,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDetailsService customUserDetailsService;
 	
-	private static final Logger logger = Logger.getLogger(UserService.class);
 
 	@Override
 	@Transactional
@@ -55,15 +52,9 @@ public class UserServiceImpl implements UserService {
 				.loadUserByUsername(login);
 		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
 				userDetails, password, userDetails.getAuthorities());
-		try{
-			authenticationManager.authenticate(auth);
-		}catch(AuthenticationException ex){
-			if(logger.isDebugEnabled()){
-				logger.error("UserServiceImpl - login failed",ex);
-			}
-			return false;
-		}
 		
+		authenticationManager.authenticate(auth);
+	
 		if (auth.isAuthenticated()) {
 			SecurityContextHolder.getContext().setAuthentication(auth);
 			return true;
