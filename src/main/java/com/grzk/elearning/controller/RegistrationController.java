@@ -16,27 +16,30 @@ import com.grzk.elearning.validator.UserValidator;
 
 @Controller
 public class RegistrationController {
-	
-	@Autowired private UserValidator userValidator;
-	@Autowired private UserService userService;
-	
-	@RequestMapping(value="/register",method=RequestMethod.GET)
-	public String newForm(Model model){
-		model.addAttribute("user",new User());
+
+	@Autowired
+	private UserValidator userValidator;
+	@Autowired
+	private UserService userService;
+
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String newForm(Model model) {
+		model.addAttribute("user", new User());
 		return "register";
 	}
-	
-	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String create(@Validated User user,BindingResult result){
-		if(result.hasErrors()||userService.save(user)==null)
-			return "register";
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public String create(@Validated User user, BindingResult result) {
 		
-		userService.login(user,user.getPasswordConfirm());
+		if (result.hasErrors() || userService.save(user) == null)
+			return "register";
+
+		userService.login(user.getUsername(), user.getPasswordConfirm());
 		return "redirect:/";
 	}
-	
+
 	@InitBinder
-	protected void initBinder(WebDataBinder binder){
+	protected void initBinder(WebDataBinder binder) {
 		binder.setValidator(userValidator);
 	}
 }

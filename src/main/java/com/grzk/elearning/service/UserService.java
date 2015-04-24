@@ -7,6 +7,6 @@ import com.grzk.elearning.model.User;
 public interface UserService {
 	List<User> findAll();
 	User save(User save);
-	void login(User user,String password);
+	boolean login(String login,String password);
 }
 

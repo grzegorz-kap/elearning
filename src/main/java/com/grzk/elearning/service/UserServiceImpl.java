@@ -2,9 +2,11 @@ package com.grzk.elearning.service;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,18 +20,23 @@ import com.grzk.elearning.repository.UserRepository;
 
 @Service("UserService")
 public class UserServiceImpl implements UserService {
+
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	@Autowired
+	private UserDetailsService customUserDetailsService;
 	
-	@Autowired private UserRepository userRepository;
-	@Autowired private PasswordEncoder passwordEncoder;
-	@Autowired private AuthenticationManager authenticationManager;
-	@Autowired private UserDetailsService customUserDetailsService;
-	
+	private static final Logger logger = Logger.getLogger(UserService.class);
+
 	@Override
 	@Transactional
 	public List<User> findAll() {
 		return userRepository.findAll();
 	}
-
 
 	@Override
 	@Transactional
@@ -41,19 +48,28 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
-
 	@Override
 	@Transactional
-	public void login(User user,String password) {
-		UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUsername());
-		UsernamePasswordAuthenticationToken auth  = new UsernamePasswordAuthenticationToken(
-															userDetails,
-															password,
-															userDetails.getAuthorities()
-														);
-		authenticationManager.authenticate(auth);
-		if(auth.isAuthenticated())
+	public boolean login(String login, String password) {
+		UserDetails userDetails = customUserDetailsService
+				.loadUserByUsername(login);
+		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+				userDetails, password, userDetails.getAuthorities());
+		try{
+			authenticationManager.authenticate(auth);
+		}catch(AuthenticationException ex){
+			if(logger.isDebugEnabled()){
+				logger.error("UserServiceImpl - login failed",ex);
+			}
+			return false;
+		}
+		
+		if (auth.isAuthenticated()) {
 			SecurityContextHolder.getContext().setAuthentication(auth);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
