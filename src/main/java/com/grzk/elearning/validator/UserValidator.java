@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 
 import com.grzk.elearning.model.User;
 
-@Component("userValidator")
+@Component("UserValidator")
 public class UserValidator implements Validator {
 
 	@Override
