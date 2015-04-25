@@ -9,10 +9,23 @@
 <title>Example</title>
 </head>
 <body>
-	<section layout:fragment="content">
-		<h1>Hello world!</h1>
-
-		<p th:text="2+2"></p>
+	<section layout:fragment="content"
+		ng-controller="LoginController">
+		<div class="row">
+			<div class="col-md-6 well">
+				<form>
+					<div class="form-group">
+						<label>Login: </label>
+						<input type="text" ng-model="username" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>Password: </label>
+						<input type="password" ng-model="password" class="form-control"/>
+					</div>
+					<input type="submit" class="btn btn-primary" value="Login" ng-click="login()" />
+				</form>
+			</div>
+		</div>
 	</section>
 </body>
 </html>

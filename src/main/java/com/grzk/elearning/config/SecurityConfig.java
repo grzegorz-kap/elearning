@@ -13,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -20,44 +23,52 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService customUserDetailsService;
-	
+
 	@Autowired
 	private DataSource dataSource;
-	
-	@Autowired
-	public void configGlobal(AuthenticationManagerBuilder auth) throws Exception{
 
-		auth.userDetailsService(this.customUserDetailsService).passwordEncoder(passwordEncoder());		
+	@Autowired
+	public void configGlobal(AuthenticationManagerBuilder auth)
+			throws Exception {
+
+		auth.userDetailsService(this.customUserDetailsService).passwordEncoder(
+				passwordEncoder());
+		auth.inMemoryAuthentication().withUser("grzk").password("grzk").authorities("ROLE_USER");
 	}
-	
-	protected void configure(HttpSecurity http) throws Exception{
-		 http
-		 .csrf().and()
-         	.formLogin()
-         		.loginPage("/login")
-         		.failureUrl("/login?error")
-         	.permitAll()
-         .and()
-         	.logout()
-         	.permitAll()
-         .and()
-	         .authorizeRequests()
-		         .antMatchers("/resources/**").permitAll()
-		         .antMatchers("/webjars/**").permitAll()
-		         .antMatchers("/static/**").permitAll()
-		         .antMatchers("/register").anonymous()
-		         .antMatchers("/**").hasRole("USER");
+
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+			.csrf().csrfTokenRepository(csrfTokenRepository())
+		.and()
+			.logout()
+				.permitAll()
+		.and()
+			.authorizeRequests()
+				.antMatchers("/").permitAll()
+				.antMatchers("/resources/**").permitAll()
+				.antMatchers("/webjars/**").permitAll()
+				.antMatchers("/static/**").permitAll()
+				.antMatchers("/register").anonymous()
+				.antMatchers("/login").anonymous()
+				.antMatchers("/**").hasRole("USER")
+		.and()
+			.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class);
 	}
-	
+
 	@Bean
-	public PasswordEncoder passwordEncoder(){
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
-	public AuthenticationManager myAuthenticationManager() throws Exception{
+	public AuthenticationManager myAuthenticationManager() throws Exception {
 		return super.authenticationManagerBean();
 	}
 	
-	
+	private CsrfTokenRepository csrfTokenRepository() {
+		HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+		repository.setHeaderName("X-XSRF-TOKEN");
+		return repository;
+	}
+
 }

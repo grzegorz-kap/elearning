@@ -47,19 +47,19 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public boolean login(String login, String password) {
+	public User login(String login, String password) {
 		UserDetails userDetails = customUserDetailsService
 				.loadUserByUsername(login);
+		
 		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
 				userDetails, password, userDetails.getAuthorities());
-		
 		authenticationManager.authenticate(auth);
 	
 		if (auth.isAuthenticated()) {
 			SecurityContextHolder.getContext().setAuthentication(auth);
-			return true;
+			return userRepository.findByEmailOrUsername(login, login);
 		} else {
-			return false;
+			return null;
 		}
 	}
 

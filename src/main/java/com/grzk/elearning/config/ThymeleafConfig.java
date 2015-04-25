@@ -8,6 +8,7 @@ import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+import org.webjars.WebJarAssetLocator;
 
 @Configuration
 public class ThymeleafConfig {
@@ -39,4 +40,9 @@ public class ThymeleafConfig {
 		viewResolver.setViewNames(new String[]{"*"});
 		return viewResolver;
 	}
+	
+	@Bean
+	public WebJarAssetLocator assetLocator(){
+		return new WebJarAssetLocator();
+	};
 }

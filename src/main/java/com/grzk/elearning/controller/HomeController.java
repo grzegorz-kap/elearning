@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.webjars.WebJarAssetLocator;
 
 import com.grzk.elearning.service.UserService;
 
@@ -20,14 +21,14 @@ public class HomeController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private WebJarAssetLocator assetLocator;
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		
-		model.addAttribute("serverTime", userService.findAll().size() );
-		
 		return "home";
 	}
+	
+	
 	
 }
