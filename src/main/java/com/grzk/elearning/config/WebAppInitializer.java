@@ -1,5 +1,7 @@
 package com.grzk.elearning.config;
 
+import javax.servlet.ServletRegistration;
+
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebAppInitializer extends
@@ -20,6 +22,11 @@ public class WebAppInitializer extends
 	@Override
 	protected String[] getServletMappings() {
 		return new String[] { "/" };
+	}
+	
+	@Override
+	protected void customizeRegistration(ServletRegistration.Dynamic reg){
+		reg.setInitParameter("throwExceptionIfNoHandlerFound", "true");
 	}
 
 }

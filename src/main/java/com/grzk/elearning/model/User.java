@@ -11,7 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table (name="users")
@@ -26,9 +27,6 @@ public class User {
 	
 	@Column(nullable=false)
 	private String password;
-	
-	@Transient
-	private String passwordConfirm;
 	
 	@Column(unique=true,nullable=false)
 	private String email;
@@ -64,11 +62,13 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+	
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
-
+	
+	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -95,13 +95,5 @@ public class User {
 
 	public void setAuthorities(List<Authority> authorities) {
 		this.authorities = authorities;
-	}
-
-	public String getPasswordConfirm() {
-		return passwordConfirm;
-	}
-
-	public void setPasswordConfirm(String passwordConfirm) {
-		this.passwordConfirm = passwordConfirm;
 	}
 }

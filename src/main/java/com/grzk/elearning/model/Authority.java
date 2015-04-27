@@ -11,6 +11,9 @@ import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 @Entity
 @Table(name="authorities")
 public class Authority implements GrantedAuthority {
@@ -26,6 +29,7 @@ public class Authority implements GrantedAuthority {
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="user_id")
+	@JsonIgnore
 	private User user;
 	
 	public Authority(){

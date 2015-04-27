@@ -5,5 +5,10 @@ app.service('UserService',['$http','$rootScope',function($http,$rootScope){
 		$http.post(
 				$rootScope.prefix+'/login',
 				user
-		);}
+		);
+	}
+	
+	this.register = function(user){
+		$http.post($rootScope.prefix+'/register',user);
+	}
 }]);
