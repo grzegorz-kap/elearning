@@ -11,4 +11,8 @@ app.service('UserService',['$http','$rootScope',function($http,$rootScope){
 	this.register = function(user){
 		$http.post($rootScope.prefix+'/register',user);
 	}
+	
+	this.logout = function(){
+		$http.post($rootScope.prefix+'/logout');
+	}
 }]);

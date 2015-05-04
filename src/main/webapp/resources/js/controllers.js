@@ -1,5 +1,12 @@
 var appControllers = angular.module('appControllers',[]);
 
+appControllers.controller('MainController' ,['$scope','UserService',function($scope,UserService){
+	
+	$scope.logout = function(){
+		UserService.logout();
+	};
+}]);
+
 
 appControllers.controller('LoginController',['$scope','UserService',function($scope,UserService){
 	$scope.user = {};
