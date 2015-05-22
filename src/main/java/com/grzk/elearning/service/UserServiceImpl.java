@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.grzk.elearning.model.Authority;
 import com.grzk.elearning.model.User;
 import com.grzk.elearning.repository.UserRepository;
 
@@ -21,10 +20,13 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
 	@Autowired
 	private UserDetailsService customUserDetailsService;
 	
@@ -38,10 +40,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public User save(User user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.resetAuthorities();
-		user.addAuthority(new Authority("ROLE_USER"));
-		user.setEnabled(true);
 		return userRepository.save(user);
 	}
 
@@ -57,10 +55,20 @@ public class UserServiceImpl implements UserService {
 	
 		if (auth.isAuthenticated()) {
 			SecurityContextHolder.getContext().setAuthentication(auth);
-			return userRepository.findByEmailOrUsername(login, login);
+			return userRepository.findOneByEmailOrUsername(login, login);
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public boolean isUsernameAvailable(String username) {
+		return userRepository.findOneByEmailOrUsername(username,username) == null;
+	}
+
+	@Override
+	public boolean isEmailAvailable(String email) {
+		return userRepository.findOneByEmailOrUsername(email, email) == null;
 	}
 
 }

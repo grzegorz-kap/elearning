@@ -8,5 +8,7 @@ public interface UserService {
 	List<User> findAll();
 	User save(User save);
 	User login(String login,String password);
+	boolean isUsernameAvailable(String username);
+	boolean isEmailAvailable(String email);
 }
 
