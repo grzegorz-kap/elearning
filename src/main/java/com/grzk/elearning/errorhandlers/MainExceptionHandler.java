@@ -33,6 +33,7 @@ public class MainExceptionHandler {
 		ErrorMessage errorMessage = new ErrorMessage();
 		errorMessage.setStatus(HttpStatus.NOT_FOUND);
 		errorMessage.setTitle("Incorrect username or password");
+		errorMessage.setDetail(errorMessage.getTitle());
 		return errorMessage;
 	}
 }

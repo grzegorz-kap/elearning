@@ -1,6 +1,15 @@
 var appControllers = angular.module('appControllers',[]);
 
-appControllers.controller('MainController' ,['$scope','UserService',function($scope,UserService){
+appControllers.controller('MainController' ,['$scope','UserService','USER_ROLES',
+                                             function($scope,UserService,USER_ROLES){
+	
+	$scope.currentUser = null;
+	$scope.userRoles= USER_ROLES;
+	$scope.isAuthorized = UserService.isAuthorized;
+	
+	$scope.setCurrentUser = function(user){
+		$scope.currentUser = user;
+	}
 	
 	$scope.logout = function(){
 		UserService.logout();
@@ -8,7 +17,8 @@ appControllers.controller('MainController' ,['$scope','UserService',function($sc
 }]);
 
 
-appControllers.controller('LoginController',['$scope','UserService',function($scope,UserService){
+appControllers.controller('LoginController',['$scope','UserService','AUTH_EVENTS',
+                                             function($scope,UserService,AUTH_EVENTS){
 	$scope.user = {};
 	$scope.user.username = "";
 	$scope.user.password = "";

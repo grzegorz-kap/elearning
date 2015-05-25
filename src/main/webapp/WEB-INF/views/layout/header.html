@@ -23,8 +23,8 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a th:href="@{/}">Home</a></li>
-					<li><a ng-href="#/login">Login</a></li>
-					<li><a ng-href="#/" ng-click="logout()">Logout</a></li>
+					<li ng-if="!currentUser"><a ng-href="#/login">Login</a></li>
+					<li ng-if="currentUser"><a ng-href="#/" ng-click="logout()">Logout</a></li>
 				</ul>
 			</div>
 
