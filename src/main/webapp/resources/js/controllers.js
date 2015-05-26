@@ -29,7 +29,8 @@ appControllers.controller('LoginController',['$scope','UserService','AUTH_EVENTS
 	};
 }]);
 
-appControllers.controller('RegistrationsController', ['$scope','UserService', function($scope,UserService){
+appControllers.controller('RegistrationsController', ['$scope','UserService',
+                                                      function($scope,UserService){
 	$scope.user = {};
 	$scope.user.username="grzk695";
 	$scope.user.email="grzk@outlook.com";

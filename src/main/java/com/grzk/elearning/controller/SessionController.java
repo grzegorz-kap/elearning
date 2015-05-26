@@ -32,7 +32,5 @@ public class SessionController {
 	public String logout(Principal principal,Model model){
 		model.addAttribute("user", new User());
 		return "login";
-	}
-	
-	
+	}	
 }

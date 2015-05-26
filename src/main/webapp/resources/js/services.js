@@ -5,7 +5,7 @@ app.service('UserService',['$http','$rootScope','Session',
 	this.login = function(user){ 
 		$http
 			.post($rootScope.prefix+'/login',user)
-			.error(function(res){
+			.then(function(res){
 				alert(res);
 			})
 	}

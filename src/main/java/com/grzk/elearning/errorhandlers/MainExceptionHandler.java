@@ -36,4 +36,5 @@ public class MainExceptionHandler {
 		errorMessage.setDetail(errorMessage.getTitle());
 		return errorMessage;
 	}
+	
 }
