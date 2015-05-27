@@ -23,8 +23,8 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a ng-href="#/">Home</a></li>
-					<li ng-if="!user.name"><a ng-href="#/login">Login </a></li>
-					<li ng-if="user.name"><a ng-click="logout()">Logout</a></li>
+					<li ng-if="!currentUser.name"><a ng-href="#/login">Login </a></li>
+					<li ng-if="currentUser.name"><a ng-click="logout()">Logout</a></li>
 				</ul>
 			</div>
 		</div>

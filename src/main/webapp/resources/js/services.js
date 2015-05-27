@@ -6,7 +6,7 @@ app.service('SessionService',['$http','Session',
 		$http
 			.post('login',user)
 			.success(function(res){
-				Session.create(0,res.id,res.authorities[0].authority,res.username);
+				Session.create(res.id,res.authorities[0].authority,res.username);
 				if(callback!=null)
 					callback(res);
 			})
@@ -33,20 +33,56 @@ app.service('SessionService',['$http','Session',
 					callback();
 			});
 	}
+	
+	
 }]);
 
-app.service('Session',function(){
-	this.create = function(sessionId, userId, userRole, userName){
-		this.id = sessionId;
-		this.userId = userId;
-		this.userRole = userRole;
-		this.userName = userName;
+app.factory('Session',['$cookies',function($cookies){
+	
+	var self = this;
+	var obj = {};
+	obj.userId = null;
+	obj.userRole = null;
+	obj.userName = null;
+	
+	var _createCookies = function(){
+		$cookies.put('userId',obj.userId);
+		$cookies.put('userRole',obj.userRole);
+		$cookies.put('userName',obj.userName);
+		$cookies.put('old',$cookies.get('XSRF-TOKEN'));
+	}
+	
+	var _destroyCookies = function(){
+		$cookies.remove('userId');
+		$cookies.remove('userRole');
+		$cookies.remove('userName');
+		$cookies.remove('old');
+	}
+	
+	var _getUserInfo = function(){
+		if($cookies.get('XSRF-TOKEN')===$cookies.get('old')){
+			obj.userId = $cookies.get('userId');
+			obj.userRole = $cookies.get('userRole');
+			obj.userName = $cookies.get('userName');
+		}
+	}
+	
+	_getUserInfo();
+	
+	obj.destroy = function(){
+		obj.userId=null;
+		obj.userRole=null;
+		obj.userName = null;
+		_destroyCookies();
+	}
+	
+	obj.create = function( userId, userRole, userName){
+		obj.userId = userId;
+		obj.userRole = userRole;
+		obj.userName = userName;
+		_createCookies();
 	};
 	
-	this.destroy = function(){
-		this.id=null;
-		this.userId=null;
-		this.userRole=null;
-		this.userName = null;
-	}
-});
+	return obj;
+		
+}]);
