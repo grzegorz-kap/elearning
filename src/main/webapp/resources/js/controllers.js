@@ -1,16 +1,17 @@
 var appControllers = angular.module('appControllers',[]);
 
-appControllers.controller('MainController' ,['$scope','SessionService','Session','$location',
-                                             function($scope,UserService,Session,$location){
+appControllers.controller('MainController' ,
+function($scope,SessionService,Session,$location,$window){
 	
 	$scope.user = {};
 	$scope.user.name = null;
 	$scope.user.role= null;
 	
 	$scope.logout = function(){
-		UserService.logout(function(){
+		SessionService.logout(function(){
 			$scope.user.refresh();
 			$location.path("");
+			$window.location.reload();
 		});
 	};
 	
@@ -19,18 +20,18 @@ appControllers.controller('MainController' ,['$scope','SessionService','Session'
 		$scope.user.role = Session.userRole;
 	}
 	
-}]);
+});
 
 
 appControllers.controller('LoginController',['$scope','SessionService','$location',
-                                             function($scope,UserService,$location){
+                                             function($scope,SessionService,$location){
 	$scope.credentials = {};
 	$scope.credentials.username = "grzk695";
 	$scope.credentials.password = "ciapa";
 	$scope.credentials.rememberMe = false;
 	
 	$scope.login = function(){
-		UserService.login($scope.credentials,function(response){
+		SessionService.login($scope.credentials,function(response){
 			if(response.error)
 				alert("Niepoprawny login lub hasło.");
 			else{
