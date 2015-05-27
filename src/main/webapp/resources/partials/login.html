@@ -2,20 +2,22 @@
 	<div class="col-md-6">
 		<div class="well">
 			<h1>Login</h1>
-			<form ng-submit="login()">
+			<form name="loginForm" ng-submit="login()">
 				<div class="form-group">
-					<label>Username: </label>
-					<input type="text" ng-model="credentials.username" required class="form-control" placeholder="Username or email"/>
+					<label>Username: </label> <input type="text"
+						ng-model="credentials.username" required class="form-control"
+						placeholder="Username or email" />
 				</div>
 				<div class="form-group">
-					<label>Password: </label>
-					<input type="password" ng-model="credentials.password" required class="form-control" placeholder="Password"/>
+					<label>Password: </label> <input type="password"
+						ng-model="credentials.password" required class="form-control"
+						placeholder="Password" />
 				</div>
 				<div class="form-group">
-					Remember me:
-					<input type="checkbox" ng-model="credentials.rememberMe"/>
+					Remember me: <input type="checkbox"
+						ng-model="credentials.rememberMe" />
 				</div>
-				<input type="submit" class="btn btn-primary" value="Login"/>
+				<input type="submit" class="btn btn-primary" value="Login" ng-disabled="loginForm.$invalid"/>
 			</form>
 			<a ng-href="#/register">Register</a>
 		</div>

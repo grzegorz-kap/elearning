@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-md-6 well">
 		<h1>Rejestracja użytkownika</h1>
-		<form ng-submit="register()">
+		<form ng-submit="register()" name="registerForm">
 			<div class="form-group">
 				<label>User name: </label>
 				<input type="text" ng-model="user.username" required="" class="form-control"/>
@@ -18,7 +18,7 @@
 				<label>Password confirm: </label>
 				<input type="password" ng-model="user.passwordConfirm" required="" class="form-control"/>
 			</div>
-			<input type="submit"  class="btn btn-primary" value="Register"/>
+			<input type="submit"  class="btn btn-primary" value="Register" ng-disabled="registerForm.$invalid"/>
 		</form>
 	</div>
 </div>
