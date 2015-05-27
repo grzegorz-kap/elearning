@@ -3,7 +3,6 @@ package com.grzk.elearning.controller;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,13 +27,6 @@ public class SessionController {
 		User user = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
 		return user;
 	}
-	
-	@RequestMapping(value="/login",method=RequestMethod.GET)
-	public @ResponseBody User getLoginInfo(){
-		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-		return userService.findByUsername(userName);
-	}
-	
 	
 	@RequestMapping(value="/logout",method=RequestMethod.POST)
 	public String logout(Principal principal,Model model){

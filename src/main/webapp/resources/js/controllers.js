@@ -41,8 +41,8 @@ appControllers.controller('LoginController',['$scope','SessionService','$locatio
 	};
 }]);
 
-appControllers.controller('RegistrationsController', ['$scope','UserService',
-                                                      function($scope,UserService){
+appControllers.controller('RegistrationsController', ['$scope','RegistrationService','$location',
+                                                      function($scope,RegistrationService,$location){
 	$scope.user = {};
 	$scope.user.username="grzk695";
 	$scope.user.email="grzk@outlook.com";
@@ -50,6 +50,13 @@ appControllers.controller('RegistrationsController', ['$scope','UserService',
 	$scope.user.passwordConfirm="ciapa";
 	
 	$scope.register = function(){
-		UserService.register($scope.user);
+		RegistrationService.register($scope.user,function(response,correct){
+			if(!correct)
+				alert("Bledy w formularzu!");
+			else{
+				$scope.currentUser.refresh();
+				$location.path("");
+			}
+		});
 	}
 }])
