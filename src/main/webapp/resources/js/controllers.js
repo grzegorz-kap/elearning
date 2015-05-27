@@ -1,25 +1,48 @@
 var appControllers = angular.module('appControllers',[]);
 
-appControllers.controller('MainController' ,['$scope','UserService',function($scope,UserService){
+appControllers.controller('MainController' ,
+function($scope,SessionService,Session,$location,$window){
+	
+	$scope.currentUser = {};
+	$scope.currentUser.name = Session.userName;
+	$scope.currentUser.role= Session.userRole;
 	
 	$scope.logout = function(){
-		UserService.logout();
+		SessionService.logout(function(){
+			$scope.currentUser.refresh();
+			$location.path("");
+			$window.location.reload();
+		});
 	};
-}]);
+	
+	$scope.currentUser.refresh = function(){
+		$scope.currentUser.name = Session.userName;
+		$scope.currentUser.role = Session.userRole;
+	}
+	
+});
 
-
-appControllers.controller('LoginController',['$scope','UserService',function($scope,UserService){
-	$scope.user = {};
-	$scope.user.username = "";
-	$scope.user.password = "";
-	$scope.user.rememberMe = false;
+appControllers.controller('LoginController',['$scope','SessionService','$location',
+                                             function($scope,SessionService,$location){
+	$scope.credentials = {};
+	$scope.credentials.username = "grzk695";
+	$scope.credentials.password = "ciapa";
+	$scope.credentials.rememberMe = false;
 	
 	$scope.login = function(){
-		UserService.login($scope.user);
+		SessionService.login($scope.credentials,function(response){
+			if(response.error)
+				alert("Niepoprawny login lub hasło.");
+			else{
+				$scope.currentUser.refresh();
+				$location.path("");
+			}	
+		});
 	};
 }]);
 
-appControllers.controller('RegistrationsController', ['$scope','UserService', function($scope,UserService){
+appControllers.controller('RegistrationsController', ['$scope','RegistrationService','$location',
+                                                      function($scope,RegistrationService,$location){
 	$scope.user = {};
 	$scope.user.username="grzk695";
 	$scope.user.email="grzk@outlook.com";
@@ -27,6 +50,13 @@ appControllers.controller('RegistrationsController', ['$scope','UserService', fu
 	$scope.user.passwordConfirm="ciapa";
 	
 	$scope.register = function(){
-		UserService.register($scope.user);
+		RegistrationService.register($scope.user,function(response,correct){
+			if(!correct)
+				alert("Bledy w formularzu!");
+			else{
+				$scope.currentUser.refresh();
+				$location.path("");
+			}
+		});
 	}
 }])

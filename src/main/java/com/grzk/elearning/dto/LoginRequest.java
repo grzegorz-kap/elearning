@@ -24,6 +24,7 @@ public class LoginRequest {
 
 	public void setRememberMe(boolean rememberMe) {
 		this.rememberMe = rememberMe;
+		
 	}
 
 	private String username;

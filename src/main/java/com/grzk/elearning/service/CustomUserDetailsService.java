@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		com.grzk.elearning.model.User userRecord = userRepository.findByEmailOrUsername(username,username);
+		com.grzk.elearning.model.User userRecord = userRepository.findOneByEmailOrUsername(username,username);
 		if (userRecord==null)
 			throw  new UsernameNotFoundException("Username :"+username+" not found");
 		

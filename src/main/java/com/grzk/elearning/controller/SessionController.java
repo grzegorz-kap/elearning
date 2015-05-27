@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.grzk.elearning.dto.LoginRequest;
 import com.grzk.elearning.model.User;
 import com.grzk.elearning.service.UserService;
@@ -27,12 +28,9 @@ public class SessionController {
 		return user;
 	}
 	
-	
 	@RequestMapping(value="/logout",method=RequestMethod.POST)
 	public String logout(Principal principal,Model model){
 		model.addAttribute("user", new User());
 		return "login";
-	}
-	
-	
+	}	
 }
