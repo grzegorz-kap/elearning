@@ -1,6 +1,5 @@
-var app = angular.module("elearning");
-
-app.service('SessionService',['$http','Session',
+angular.module('elearning.Services')
+.service('SessionService',['$http','Session',
                            function($http,Session){
 	this.login = function(user,callback){ 
 		$http
@@ -29,28 +28,9 @@ app.service('SessionService',['$http','Session',
 					callback();
 			});
 	}
-	
-	
 }]);
 
-app.service('RegistrationService',['$http','Session',
-function($http,Session){	
-	this.register = function(user,callback){
-		$http
-			.post('register',user)
-			.success(function(data){
-				Session.create(data.id,data.authorities[0].authority,data.username);
-				if(callback)
-					callback(data,true);
-			})
-			.error(function(data){
-				if(callback)
-					callback(data,false);
-			});
-	}
-}]);
-
-app.factory('Session',['$cookies',function($cookies){
+angular.module('elearning.Services').factory('Session',['$cookies',function($cookies){
 	
 	var self = this;
 	var obj = {};

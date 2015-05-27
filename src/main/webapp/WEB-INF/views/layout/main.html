@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	ng-app="elearning">
+	ng-app="elearning" ng-controller="MainController">
 
 <head>
 <meta charset="utf-8"></meta>
@@ -28,7 +28,10 @@
 	<script type="text/javascript" src="webjars/angular-route/1.4.0-rc.2/angular-route.min.js"></script>
 	
 	<script type="text/javascript" src="resources/js/app.js"></script>
-	<script type="text/javascript" src="resources/js/services.js"></script>
+	
+	<script type="text/javascript" src="resources/js/services/service.module.js"></script>
+	<script type="text/javascript" src="resources/js/services/SessionService.js"></script>
+	<script type="text/javascript" src="resources/js/services/RegistrationService.js"></script>
 	
 	<script type="text/javascript" src="resources/js/controllers/MainController.js"></script>
 	<script type="text/javascript" src="resources/js/controllers/SessionControllers.js"></script>

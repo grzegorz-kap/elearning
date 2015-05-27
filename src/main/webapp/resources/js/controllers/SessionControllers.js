@@ -3,8 +3,8 @@ angular.module('elearning.Controllers')
 .controller('LoginController',['$scope','SessionService','$location',
                                              function($scope,SessionService,$location){
 	$scope.credentials = {};
-	$scope.credentials.username = "grzk695";
-	$scope.credentials.password = "ciapa";
+	$scope.credentials.username = "";
+	$scope.credentials.password = "";
 	$scope.credentials.rememberMe = false;
 	
 	$scope.login = function(){
