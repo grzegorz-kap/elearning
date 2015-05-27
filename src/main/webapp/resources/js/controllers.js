@@ -1,31 +1,43 @@
 var appControllers = angular.module('appControllers',[]);
 
-appControllers.controller('MainController' ,['$scope','UserService','USER_ROLES',
-                                             function($scope,UserService,USER_ROLES){
+appControllers.controller('MainController' ,['$scope','SessionService','Session','$location',
+                                             function($scope,UserService,Session,$location){
 	
-	$scope.currentUser = null;
-	$scope.userRoles= USER_ROLES;
-	$scope.isAuthorized = UserService.isAuthorized;
-	
-	$scope.setCurrentUser = function(user){
-		$scope.currentUser = user;
-	}
+	$scope.user = {};
+	$scope.user.name = null;
+	$scope.user.role= null;
 	
 	$scope.logout = function(){
-		UserService.logout();
+		UserService.logout(function(){
+			$scope.user.refresh();
+			$location.path("");
+		});
 	};
+	
+	$scope.user.refresh = function(){
+		$scope.user.name = Session.userName;
+		$scope.user.role = Session.userRole;
+	}
+	
 }]);
 
 
-appControllers.controller('LoginController',['$scope','UserService','AUTH_EVENTS',
-                                             function($scope,UserService,AUTH_EVENTS){
-	$scope.user = {};
-	$scope.user.username = "";
-	$scope.user.password = "";
-	$scope.user.rememberMe = false;
+appControllers.controller('LoginController',['$scope','SessionService','$location',
+                                             function($scope,UserService,$location){
+	$scope.credentials = {};
+	$scope.credentials.username = "grzk695";
+	$scope.credentials.password = "ciapa";
+	$scope.credentials.rememberMe = false;
 	
 	$scope.login = function(){
-		UserService.login($scope.user);
+		UserService.login($scope.credentials,function(response){
+			if(response.error)
+				alert("Niepoprawny login lub hasło.");
+			else{
+				$scope.user.refresh();
+				$location.path("");
+			}	
+		});
 	};
 }]);
 

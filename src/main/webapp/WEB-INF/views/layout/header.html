@@ -22,15 +22,11 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a th:href="@{/}">Home</a></li>
-					<li ng-if="!currentUser"><a ng-href="#/login">Login</a></li>
-					<li ng-if="currentUser"><a ng-href="#/" ng-click="logout()">Logout</a></li>
+					<li><a ng-href="#/">Home</a></li>
+					<li ng-if="!user.name"><a ng-href="#/login">Login</a></li>
+					<li><a ng-click="logout()">Logout</a></li>
 				</ul>
 			</div>
-
-
-			<form style="visibility: hidden" id="formLogout" method="post" action="#"
-				th:action="@{/logout}"></form>
 		</div>
 	</nav>
 </body>
