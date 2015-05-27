@@ -5,17 +5,17 @@
 	ng-app="elearning" ng-controller="MainController">
 
 <head>
+<meta charset="utf-8"></meta>
 <link rel='stylesheet'
 	href='webjars/bootstrap/3.3.4/css/bootstrap.min.css'></link>
 <link rel='stylesheet' th:href='@{resources/css/main.css}'></link>
 
-<title>Layout page</title>
+<title>Layout page </title>
 </head>
 
 
 <body>
 	<header th:replace="layout/header::copy"> </header>
-
 	<div class="container">
 		<div ng-view=""></div>
 		<footer th:include="layout/footer::copy"> </footer>

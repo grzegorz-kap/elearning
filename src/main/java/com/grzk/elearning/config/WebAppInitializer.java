@@ -27,6 +27,8 @@ public class WebAppInitializer extends
 	@Override
 	protected void customizeRegistration(ServletRegistration.Dynamic reg){
 		reg.setInitParameter("throwExceptionIfNoHandlerFound", "true");
+		reg.setInitParameter("encoding", "UTF-8");
+		reg.setInitParameter("forceEncoding", "true");
 	}
 
 }
