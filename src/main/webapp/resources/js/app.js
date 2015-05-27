@@ -1,7 +1,7 @@
 var app = angular.module('elearning',[
       'ngRoute',
       'ngCookies',
-      'appControllers',
+      'elearning.Controllers',
       'pascalprecht.translate'
 ])
 
